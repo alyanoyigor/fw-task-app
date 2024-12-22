@@ -10,7 +10,7 @@ interface TaskDialogProps {
 const TaskDialog: FC<PropsWithChildren<TaskDialogProps>> = ({title, open, onOpenChange, children}) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange} >
-      <DialogContent className="sm:max-w-[500px]" onOpenAutoFocus={(event: FocusEvent) => event.preventDefault()}>
+      <DialogContent className="sm:max-w-[500px]" onOpenAutoFocus={(event: Event) => event.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="text-center text-2xl">
             {title}
