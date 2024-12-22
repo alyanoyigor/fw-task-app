@@ -10,4 +10,8 @@ body {
   :root {
     --radius: 0.5rem;
   }
+
+  .container {
+    @apply max-w-5xl px-8 sm:px-6 mx-auto;
+  }
 }
