@@ -77,7 +77,7 @@ const AuthTabs: FC<Readonly<AuthTabsProps>> = ({ tab }) => {
   return (
     <Tabs
       value={activeTab}
-      onValueChange={(value: RoutesEnum) => {
+      onValueChange={(value: string) => {
         if (value === RoutesEnum.SIGN_IN || value === RoutesEnum.SIGN_UP) {
           onTabChange(value);
         }
