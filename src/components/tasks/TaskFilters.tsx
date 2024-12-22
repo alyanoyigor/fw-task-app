@@ -20,6 +20,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { Calendar } from '../ui/calendar';
 import { RoutesEnum } from '@/constants/routes.constants';
+import { TaskFiltersSchema } from '@/schemas/task.schemas';
 
 interface TaskFiltersProps {
   onCloseDialog: () => void;
@@ -30,16 +31,15 @@ const TaskFilters: FC<TaskFiltersProps> = ({ onCloseDialog }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [calendarOpen, setCalendarOpen] = useState(false);
-
-  const form = useForm<TaskFiltersInterface>({
-    defaultValues: {
+  const {data: defaultValues} = TaskFiltersSchema.safeParse({
       priority: searchParams.get('priority') || 'all',
       status: searchParams.get('status') || 'all',
-      deadline: searchParams.get('deadline')
-        ? new Date(searchParams.get('deadline') as string)
-        : undefined,
+      deadline: searchParams.get('deadline') || undefined,
       sort: searchParams.get('sort') || 'none',
-    },
+  });
+
+  const form = useForm<TaskFiltersInterface>({
+    defaultValues,
   });
 
   const onSubmit = (data: TaskFiltersInterface) => {

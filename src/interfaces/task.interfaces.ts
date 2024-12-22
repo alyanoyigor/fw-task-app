@@ -19,8 +19,8 @@ export interface TaskInterface extends BaseTaskInterface {
 }
 
 export interface TaskFiltersInterface {
-  [TaskKeysEnum.PRIORITY]: TaskPriorityEnum;
-  [TaskKeysEnum.STATUS]: TaskStatusEnum;
+  [TaskKeysEnum.PRIORITY]: TaskPriorityEnum | 'all';
+  [TaskKeysEnum.STATUS]: TaskStatusEnum | 'all';
   [TaskKeysEnum.DEADLINE]: string;
-  [TaskKeysEnum.SORT]: TaskSortEnum;
+  [TaskKeysEnum.SORT]: TaskSortEnum | 'none';
 }
