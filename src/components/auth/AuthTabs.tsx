@@ -60,17 +60,15 @@ const AuthTabs: FC<Readonly<AuthTabsProps>> = ({ tab }) => {
   };
 
   const onSubmitSignIn = async (data: SignInFormInterface) => {
-    try {
-      await signInAction(data);
-    } catch (error) {
-      setSignInError('root', { message: (error as Error).message });
+    const { message } = await signInAction(data);
+    if (message) {
+      setSignInError('root', { message });
     }
   };
   const onSubmitSignUp = async (data: SignUpFormInterface) => {
-    try {
-      await signUpAction(data);
-    } catch (error) {
-      setSignUpError('root', { message: (error as Error).message });
+    const { message } = await signUpAction(data);
+    if (message) {
+      setSignUpError('root', { message });
     }
   };
 

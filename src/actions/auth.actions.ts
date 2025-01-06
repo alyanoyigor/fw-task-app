@@ -19,7 +19,7 @@ export async function signInAction(data: SignInFormInterface) {
   });
 
   if (error) {
-    throw new Error(error.message);
+    return { message: error.message };
   }
 
   revalidatePath(RoutesEnum.BASE);
@@ -40,7 +40,7 @@ export async function signUpAction(data: SignUpFormInterface) {
   });
 
   if (error) {
-    throw new Error(error.message);
+    return { message: error.message };
   }
 
   revalidatePath(RoutesEnum.BASE);
@@ -49,11 +49,7 @@ export async function signUpAction(data: SignUpFormInterface) {
 
 export async function signOutAction() {
   const supabase = await createClient();
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    throw new Error(error.message);
-  }
+  await supabase.auth.signOut();
 
   revalidatePath(RoutesEnum.BASE, 'layout');
   redirect(RoutesEnum.BASE);
