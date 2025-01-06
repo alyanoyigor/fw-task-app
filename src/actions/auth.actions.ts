@@ -22,8 +22,8 @@ export async function signInAction(data: SignInFormInterface) {
     return { message: error.message };
   }
 
-  revalidatePath(RoutesEnum.BASE);
-  redirect(RoutesEnum.BASE);
+  revalidatePath(RoutesEnum.TASKS);
+  redirect(RoutesEnum.TASKS);
 }
 
 export async function signUpAction(data: SignUpFormInterface) {
@@ -43,8 +43,8 @@ export async function signUpAction(data: SignUpFormInterface) {
     return { message: error.message };
   }
 
-  revalidatePath(RoutesEnum.BASE);
-  redirect(RoutesEnum.BASE);
+  revalidatePath(RoutesEnum.EMAIL_STATUS);
+  redirect(RoutesEnum.EMAIL_STATUS);
 }
 
 export async function signOutAction() {
