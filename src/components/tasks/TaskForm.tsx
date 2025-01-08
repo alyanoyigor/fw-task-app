@@ -31,25 +31,28 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Calendar } from '../ui/calendar';
 import { Textarea } from '../ui/textarea';
+import { TaskPriorityEnum, TaskStatusEnum } from '@/constants/task.constants';
 
 interface TaskFormProps {
-  action: (data: BaseTaskInterface) => Promise<null>;
+  action: (data: BaseTaskInterface) => Promise<{ message: string } | void>;
   onCloseDialog: () => void;
+  actionName: 'create' | 'update';
   defaultTaskValues?: TaskInterface;
 }
 
 const initialTaskValues = {
   title: '',
   description: '',
-  priority: undefined,
-  status: undefined,
-  deadline: undefined,
+  priority: TaskPriorityEnum.LOW,
+  status: TaskStatusEnum.PENDING,
+  deadline: new Date(),
 };
 
 const TaskForm: FC<TaskFormProps> = ({
   defaultTaskValues = initialTaskValues,
   onCloseDialog,
   action,
+  actionName,
 }) => {
   const [calendarOpen, setCalendarOpen] = useState(false);
 
@@ -62,14 +65,24 @@ const TaskForm: FC<TaskFormProps> = ({
     },
     reValidateMode: 'onSubmit',
   });
+  const {
+    formState: { errors, dirtyFields },
+    setError,
+  } = form;
 
   const onSubmit = async (data: BaseTaskInterface) => {
     try {
-      const dirtyData = dirtyValues<BaseTaskInterface>(
-        form.formState.dirtyFields,
-        data
-      );
-      await action(dirtyData);
+      let tempData = data;
+
+      if (actionName === 'update') {
+        tempData = dirtyValues<BaseTaskInterface>(dirtyFields, data);
+      }
+
+      const response = await action(tempData);
+      if (response?.message) {
+        return setError('root', { message: response.message });
+      }
+
       onCloseDialog();
     } catch (error) {
       console.error(error);
@@ -204,6 +217,12 @@ const TaskForm: FC<TaskFormProps> = ({
             </FormItem>
           )}
         />
+
+        {errors.root && (
+          <p className="text-red-500 text-xs text-right">
+            {errors.root.message}
+          </p>
+        )}
 
         <Button type="submit" className="w-full max-w-[100px] ml-auto gap-2">
           <Check className="h-4 w-4" /> <span>Save</span>

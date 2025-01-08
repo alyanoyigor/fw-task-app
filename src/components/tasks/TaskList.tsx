@@ -1,18 +1,16 @@
 import { format } from 'date-fns';
 
-import { getTasksAction } from '@/actions/task.actions';
 import { TaskInterface } from '@/interfaces/task.interfaces';
 import TaskMenu from '@/components/tasks/TaskMenu';
 import { TableCell, TableRow } from '@/components/ui/table';
 
 interface TaskListProps {
-  filters: Record<string, never>;
+  tasks: TaskInterface[];
 }
 
-async function TaskList({ filters }: TaskListProps) {
-  const data = await getTasksAction(filters);
+async function TaskList({ tasks }: TaskListProps) {
 
-  if (!data.length) {
+  if (!tasks.length) {
     return (
       <TableRow>
         <TableCell colSpan={6}>No tasks found</TableCell>
@@ -20,7 +18,7 @@ async function TaskList({ filters }: TaskListProps) {
     );
   }
 
-  return data.map((task: TaskInterface) => (
+  return tasks.map((task: TaskInterface) => (
     <TableRow key={task.id}>
       <TableCell className="font-medium">{task.title}</TableCell>
       <TableCell>{task.description}</TableCell>

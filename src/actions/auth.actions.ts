@@ -19,11 +19,11 @@ export async function signInAction(data: SignInFormInterface) {
   });
 
   if (error) {
-    throw new Error(error.message);
+    return { message: error.message };
   }
 
-  revalidatePath(RoutesEnum.BASE);
-  redirect(RoutesEnum.BASE);
+  revalidatePath(RoutesEnum.TASKS);
+  redirect(RoutesEnum.TASKS);
 }
 
 export async function signUpAction(data: SignUpFormInterface) {
@@ -40,20 +40,18 @@ export async function signUpAction(data: SignUpFormInterface) {
   });
 
   if (error) {
-    throw new Error(error.message);
+    return { message: error.message };
   }
 
-  revalidatePath(RoutesEnum.BASE);
-  redirect(RoutesEnum.BASE);
+  // revalidatePath(RoutesEnum.EMAIL_STATUS);
+  // redirect(RoutesEnum.EMAIL_STATUS);
+
+  return signInAction({ email: data.email, password: data.password });
 }
 
 export async function signOutAction() {
   const supabase = await createClient();
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    throw new Error(error.message);
-  }
+  await supabase.auth.signOut();
 
   revalidatePath(RoutesEnum.BASE, 'layout');
   redirect(RoutesEnum.BASE);

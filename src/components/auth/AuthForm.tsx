@@ -1,14 +1,11 @@
-import {
-  FieldErrors,
-  FieldValues,
-  UseFormRegister,
-} from 'react-hook-form';
+import { FormEventHandler } from 'react';
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { AuthInputInfo } from '@/interfaces/auth.interfaces';
 
 import AuthInput from './AuthInput';
-import { FormEventHandler } from 'react';
 
 interface AuthFormType<T extends FieldValues> {
   title: string;
@@ -16,6 +13,7 @@ interface AuthFormType<T extends FieldValues> {
   errors: FieldErrors;
   register: UseFormRegister<T>;
   onSubmit: FormEventHandler<HTMLFormElement>;
+  isSubmitting: boolean;
 }
 
 const AuthForm = <T extends FieldValues>({
@@ -24,6 +22,7 @@ const AuthForm = <T extends FieldValues>({
   errors,
   register,
   onSubmit,
+  isSubmitting,
 }: AuthFormType<T>) => {
   return (
     <div className="p-8 bg-white border-gray-200 rounded">
@@ -44,6 +43,7 @@ const AuthForm = <T extends FieldValues>({
 
         <Button variant="default" className="mt-4" size="lg" type="submit">
           {title}
+          {isSubmitting && <Loader2 className="animate-spin" />}
         </Button>
       </form>
     </div>

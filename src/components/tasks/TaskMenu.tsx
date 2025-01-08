@@ -51,6 +51,7 @@ const TaskMenu: FC<TaskMenuProps> = ({ task }: { task: TaskInterface }) => {
           action={updateTaskAction.bind(null, task.id)}
           onCloseDialog={() => setOpenEdit(false)}
           defaultTaskValues={task}
+          actionName="update"
         />
       </TaskDialog>
       <TaskAlertDialog
