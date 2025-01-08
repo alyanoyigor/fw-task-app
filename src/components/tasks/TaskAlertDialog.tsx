@@ -13,7 +13,7 @@ import {
 interface TaskAlertDialogProps {
   open: boolean;
   setOpen: (value: boolean) => void;
-  action: () => Promise<null>;
+  action: () => Promise<{ message: string } | void>;
 }
 
 const TaskAlertDialog: FC<PropsWithChildren<TaskAlertDialogProps>> = ({

@@ -43,8 +43,10 @@ export async function signUpAction(data: SignUpFormInterface) {
     return { message: error.message };
   }
 
-  revalidatePath(RoutesEnum.EMAIL_STATUS);
-  redirect(RoutesEnum.EMAIL_STATUS);
+  // revalidatePath(RoutesEnum.EMAIL_STATUS);
+  // redirect(RoutesEnum.EMAIL_STATUS);
+
+  return signInAction({ email: data.email, password: data.password });
 }
 
 export async function signOutAction() {

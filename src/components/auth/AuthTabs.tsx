@@ -31,7 +31,7 @@ const AuthTabs: FC<Readonly<AuthTabsProps>> = ({ tab }) => {
   const {
     register: signUpRegister,
     handleSubmit: handleSignUpSubmit,
-    formState: { errors: signUpErrorsForm },
+    formState: { errors: signUpErrorsForm, isSubmitting: isSignUpSubmitting },
     reset: resetSignUpForm,
     setError: setSignUpError,
   } = useForm<SignUpFormInterface>({
@@ -42,7 +42,7 @@ const AuthTabs: FC<Readonly<AuthTabsProps>> = ({ tab }) => {
   const {
     register: signInRegister,
     handleSubmit: handleSignInSubmit,
-    formState: { errors: signInErrors },
+    formState: { errors: signInErrors, isSubmitting: isSignInSubmitting },
     reset: resetSignInForm,
     setError: setSignInError,
   } = useForm<SignInFormInterface>({
@@ -65,6 +65,7 @@ const AuthTabs: FC<Readonly<AuthTabsProps>> = ({ tab }) => {
       setSignInError('root', { message });
     }
   };
+
   const onSubmitSignUp = async (data: SignUpFormInterface) => {
     const { message } = await signUpAction(data);
     if (message) {
@@ -98,6 +99,7 @@ const AuthTabs: FC<Readonly<AuthTabsProps>> = ({ tab }) => {
           register={signInRegister}
           onSubmit={handleSignInSubmit(onSubmitSignIn)}
           inputs={signInInputs}
+          isSubmitting={isSignInSubmitting}
         />
       </TabsContent>
       <TabsContent value={RoutesEnum.SIGN_UP}>
@@ -107,6 +109,7 @@ const AuthTabs: FC<Readonly<AuthTabsProps>> = ({ tab }) => {
           register={signUpRegister}
           onSubmit={handleSignUpSubmit(onSubmitSignUp)}
           inputs={signUpInputs}
+          isSubmitting={isSignUpSubmitting}
         />
       </TabsContent>
     </Tabs>
