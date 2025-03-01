@@ -43,6 +43,7 @@ const TasksHeader = () => {
       >
         <TaskForm
           action={createTaskAction}
+          actionName='create'
           onCloseDialog={() => setOpenCreate(false)}
         />
       </TaskDialog>

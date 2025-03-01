@@ -11,12 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { TaskInterface } from '@/interfaces/task.interfaces';
 
 interface TasksTableProps {
-  filters: Record<string, never>;
+  tasks: TaskInterface[];
 }
 
-const TasksTable: FC<TasksTableProps> = ({ filters }) => {
+const TasksTable: FC<TasksTableProps> = ({ tasks }) => {
   return (
     <Table>
       <TableCaption className="hidden">A list of tasks.</TableCaption>
@@ -45,7 +46,7 @@ const TasksTable: FC<TasksTableProps> = ({ filters }) => {
               </TableRow>
             }
           >
-            <TaskList filters={filters} />
+            <TaskList tasks={tasks} />
           </Suspense>
         </ErrorBoundary>
       </TableBody>

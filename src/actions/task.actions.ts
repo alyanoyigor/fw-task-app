@@ -2,13 +2,15 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { BaseTaskInterface } from '@/interfaces/task.interfaces';
+import { BaseTaskInterface, TaskInterface } from '@/interfaces/task.interfaces';
 import { createClient } from '@/lib/supabase/server';
 import { TaskFiltersSchema } from '@/schemas/task.schemas';
 import { TaskKeysEnum } from '@/constants/task.constants';
 import { RoutesEnum } from '@/constants/routes.constants';
 
-export const getTasksAction = async (params?: Record<string, never>) => {
+export const getTasksAction = async (
+  params?: Record<string, never>
+): Promise<TaskInterface[]> => {
   const { error: validationError, data: validatedParams } =
     TaskFiltersSchema.safeParse(params);
 
@@ -60,11 +62,10 @@ export const createTaskAction = async (task: BaseTaskInterface) => {
     .insert({ ...task, user_id: user.id });
 
   if (error) {
-    throw new Error(error.message);
+    return { message: error.message };
   }
-  revalidatePath(RoutesEnum.TASKS);
 
-  return null;
+  revalidatePath(RoutesEnum.TASKS);
 };
 
 export const deleteTaskAction = async (id: number) => {
@@ -73,12 +74,10 @@ export const deleteTaskAction = async (id: number) => {
   const { error } = await supabase.from('tasks').delete().eq('id', id);
 
   if (error) {
-    throw new Error(error.message);
+    return { message: error.message };
   }
 
   revalidatePath(RoutesEnum.TASKS);
-
-  return null;
 };
 
 export const updateTaskAction = async (
@@ -88,11 +87,10 @@ export const updateTaskAction = async (
   const supabase = await createClient();
 
   const { error } = await supabase.from('tasks').update(taskPart).eq('id', id);
+
   if (error) {
-    throw new Error(error.message);
+    return { message: error.message };
   }
 
   revalidatePath(RoutesEnum.TASKS);
-
-  return null;
 };
